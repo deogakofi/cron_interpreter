@@ -123,5 +123,96 @@ class TestMinuteAfterMidnight(unittest.TestCase):
         self.assertEqual(result[6][6:9], 'tod')
         self.assertEqual(result[7][0:5], '23:00')
         self.assertEqual(result[7][6:9], 'tod')
+
+class TestMinuteBeforeHour(unittest.TestCase):
+    """Test case to test what will happen if the time entered is
+        just a minute before the hour
+    """
+    def test_solver(self):
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solve_run_time('16:59', 'Tests/cron_test.txt')
+        self.assertEqual(result[0][0:5], '23:59')
+        self.assertEqual(result[0][6:9], 'tod')
+        self.assertEqual(result[1][0:5], '17:45')
+        self.assertEqual(result[1][6:9], 'tod')
+        self.assertEqual(result[2][0:5], '16:59')
+        self.assertEqual(result[2][6:9], 'tod')
+        self.assertEqual(result[3][0:5], '19:00')
+        self.assertEqual(result[3][6:9], 'tod')
+        self.assertEqual(result[4][0:5], '00:00')
+        self.assertEqual(result[4][6:9], 'tom')
+        self.assertEqual(result[5][0:5], '16:59')
+        self.assertEqual(result[5][6:9], 'tod')
+        self.assertEqual(result[6][0:5], '16:59')
+        self.assertEqual(result[6][6:9], 'tod')
+        self.assertEqual(result[7][0:5], '23:00')
+        self.assertEqual(result[7][6:9], 'tod')
+
+class TestMinuteAfterHour(unittest.TestCase):
+    """Test case to test what will happen if the time entered is
+        just a minute after the hour
+    """
+    def test_solver(self):
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solve_run_time('17:01', 'Tests/cron_test.txt')
+        self.assertEqual(result[0][0:5], '23:59')
+        self.assertEqual(result[0][6:9], 'tod')
+        self.assertEqual(result[1][0:5], '17:45')
+        self.assertEqual(result[1][6:9], 'tod')
+        self.assertEqual(result[2][0:5], '17:01')
+        self.assertEqual(result[2][6:9], 'tod')
+        self.assertEqual(result[3][0:5], '19:00')
+        self.assertEqual(result[3][6:9], 'tod')
+        self.assertEqual(result[4][0:5], '00:00')
+        self.assertEqual(result[4][6:9], 'tom')
+        self.assertEqual(result[5][0:5], '17:59')
+        self.assertEqual(result[5][6:9], 'tod')
+        self.assertEqual(result[6][0:5], '17:01')
+        self.assertEqual(result[6][6:9], 'tod')
+        self.assertEqual(result[7][0:5], '23:00')
+        self.assertEqual(result[7][6:9], 'tod')
+
+class TestOnTheHour(unittest.TestCase):
+    """Test case to test what will happen if the time entered is
+        on the hour
+    """
+    def test_solver(self):
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solve_run_time('17:00', 'Tests/cron_test.txt')
+        self.assertEqual(result[0][0:5], '23:59')
+        self.assertEqual(result[0][6:9], 'tod')
+        self.assertEqual(result[1][0:5], '17:45')
+        self.assertEqual(result[1][6:9], 'tod')
+        self.assertEqual(result[2][0:5], '17:00')
+        self.assertEqual(result[2][6:9], 'tod')
+        self.assertEqual(result[3][0:5], '19:00')
+        self.assertEqual(result[3][6:9], 'tod')
+        self.assertEqual(result[4][0:5], '00:00')
+        self.assertEqual(result[4][6:9], 'tom')
+        self.assertEqual(result[5][0:5], '17:59')
+        self.assertEqual(result[5][6:9], 'tod')
+        self.assertEqual(result[6][0:5], '17:00')
+        self.assertEqual(result[6][6:9], 'tod')
+        self.assertEqual(result[7][0:5], '23:00')
+        self.assertEqual(result[7][6:9], 'tod')
+
 if __name__ == '__main__':
     unittest.main()

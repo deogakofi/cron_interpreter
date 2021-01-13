@@ -82,4 +82,4 @@ if __name__ == "__main__":
     print("Output file can be found in {}".format(args['save']))                # Print some output to help user
     print('-----------------------------------')
     print('Sample output')
-    print(solved[0])
+    print(solved)
