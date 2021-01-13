@@ -9,7 +9,7 @@ setup:
 
 test:
 	    # Additional, optional, tests could go here
-	    python tests/test.py
+	    python3 tests/test.py
 
 
 validate-circleci:
