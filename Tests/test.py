@@ -3,7 +3,6 @@ import os               # import os module
 import unittest         # import unittest module
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))             #Append parent path to sys path
 from Solution.lyst import solve_run_time                      # Import module to be tested
-home = os.path.dirname(os.path.dirname(__file__))           # Get parent directory path
 sys.path.append(os.path.dirname(__file__))                  # Append Test folder path to sys path
 
 
@@ -19,7 +18,7 @@ class TestRandomTime(unittest.TestCase):
             Pass if all assert statements pass and
             Fail if one of the assert statements fails
         """
-        result = solve_run_time('16:10', '{}/tests/cron_test.txt'.format(home))
+        result = solve_run_time('16:10', 'tests/cron_test.txt')
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '16:45')
@@ -49,7 +48,7 @@ class TestMinuteBeforeMidnight(unittest.TestCase):
             Pass if all assert statements pass and
             Fail if one of the assert statements fails
         """
-        result = solve_run_time('23:59', '{}/tests/cron_test.txt'.format(home))
+        result = solve_run_time('23:59', 'tests/cron_test.txt')
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '00:45')
@@ -78,7 +77,7 @@ class TestMidnight(unittest.TestCase):
             Pass if all assert statements pass and
             Fail if one of the assert statements fails
         """
-        result = solve_run_time('00:00', '{}/tests/cron_test.txt'.format(home))
+        result = solve_run_time('00:00', 'tests/cron_test.txt')
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '00:45')
@@ -107,7 +106,7 @@ class TestMinuteAfterMidnight(unittest.TestCase):
             Pass if all assert statements pass and
             Fail if one of the assert statements fails
         """
-        result = solve_run_time('00:01', '{}/tests/cron_test.txt'.format(home))
+        result = solve_run_time('00:01', 'tests/cron_test.txt')
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '00:45')
