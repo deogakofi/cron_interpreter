@@ -1,12 +1,25 @@
-import unittest
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from Solution.lyst import solveRunTime
+import sys              # import sys module
+import os               # import os module
+import unittest         # import unittest module
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))             #Append parent path to sys path
+from Solution.lyst import solveRunTime                      # Import module to be tested
+home = os.path.dirname(os.path.dirname(__file__))           # Get parent directory path
+sys.path.append(os.path.dirname(__file__))                  # Append Test folder path to sys path
 
-class Test_random_time(unittest.TestCase):
+
+class TestRandomTime(unittest.TestCase):
+    """Test case to test random time not close to boundaries
+    """
+
     def test_solver(self):
-        result = solveRunTime('16:10', 'Tests/cron_test.txt')
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solveRunTime('16:10', '{}/tests/cron_test.txt'.format(home))
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '16:45')
@@ -24,9 +37,19 @@ class Test_random_time(unittest.TestCase):
         self.assertEqual(result[7][0:5], '23:00')
         self.assertEqual(result[7][6:9], 'tod')
 
-class Test_minute_before_midnight(unittest.TestCase):
+class TestMinuteBeforeMidnight(unittest.TestCase):
+    """Test case to test what will happen if the time entered
+        is a minute before midnight
+    """
     def test_solver(self):
-        result = solveRunTime('23:59', 'Tests/cron_test.txt')
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solveRunTime('23:59', '{}/tests/cron_test.txt'.format(home))
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '00:45')
@@ -43,9 +66,19 @@ class Test_minute_before_midnight(unittest.TestCase):
         self.assertEqual(result[6][6:9], 'tod')
         self.assertEqual(result[7][0:5], '23:59')
         self.assertEqual(result[7][6:9], 'tod')
-class Test_midnight(unittest.TestCase):
+class TestMidnight(unittest.TestCase):
+    """Test case to test what will happen if the time entered is
+        at midnight
+    """
     def test_solver(self):
-        result = solveRunTime('00:00', 'Tests/cron_test.txt')
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solveRunTime('00:00', '{}/tests/cron_test.txt'.format(home))
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '00:45')
@@ -62,9 +95,19 @@ class Test_midnight(unittest.TestCase):
         self.assertEqual(result[6][6:9], 'tod')
         self.assertEqual(result[7][0:5], '23:00')
         self.assertEqual(result[7][6:9], 'tod')
-class Test_minute_after_midnight(unittest.TestCase):
+class TestMinuteAfterMidnight(unittest.TestCase):
+    """Test case to test what will happen if the time entered is
+        just after midnnight
+    """
     def test_solver(self):
-        result = solveRunTime('00:01', 'Tests/cron_test.txt')
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solveRunTime('00:01', '{}/tests/cron_test.txt'.format(home))
         self.assertEqual(result[0][0:5], '23:59')
         self.assertEqual(result[0][6:9], 'tod')
         self.assertEqual(result[1][0:5], '00:45')
