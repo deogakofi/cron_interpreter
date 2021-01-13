@@ -1,31 +1,32 @@
 CRON SCHEDULER INTERPRETER PROJECT
 ------------------------------------
 Specification
+-------------------
 
-We have a set of tasks, each running at least daily, which are scheduled using some simple values in a text file. You might recognise this from writing a crontab configuration in the past.
-Examples of the scheduler config:
-* `30 1 /bin/run_me_daily`
-* `45 * /bin/run_me_hourly`
-* `* * /bin/run_me_every_minute`
-* `* 19 /bin/run_me_sixty_times`
+We have a set of tasks, each running at least daily, which are scheduled using some simple values in a text file. You might recognise this from writing a crontab configuration in the past.  
+
+Examples of the scheduler config:  
+Please refer to `input_data/cron_config.txt`
+
 The first field is the minute past the hour, the second field is the hour of the day and the third is the command to run. For both cases * means that it should run for all values of that field.
-We want you to write a command line program that takes a single argument. This argument is the simulated 'current time' in the format HH:MM. The program should accept config lines in the form above to STDIN and output the soonest time at which each of the commands will fire and whether it is today or tomorrow. In the case when the task should fire at the simulated 'current time' then that is the time you should output, not the next one.
 
-For example given the above examples as input and the simulated 'current time' command-line
-argument 16:10 the output should be:
+We want you to write a command line program that takes a single argument. This argument is the simulated 'current time' in the format HH:MM. The program should accept config lines in the form above to STDIN and output the soonest time at which each of the commands will fire and whether it is today or tomorrow. In the case when the task should fire at the simulated 'current time' then that is the time you should output, not the next one.  
 
-1:30 tomorrow - /bin/run_me_daily
-16:45 today - /bin/run_me_hourly
-16:10 today - /bin/run_me_every_minute
-19:00 today - /bin/run_me_sixty_times
+For example given the above examples as input and the simulated 'current time' command-line argument 16:10 the output should be:  
 
-DO NOT USE THIRD PARTY LIBRARIES
+1:30 tomorrow - /bin/run_me_daily  
+16:45 today - /bin/run_me_hourly  
+16:10 today - /bin/run_me_every_minute  
+19:00 today - /bin/run_me_sixty_times  
 
-We want to run your code on the command line using an input like
-./<your app> HH:MM < config
-For example: ./application.py 16:10 < config
-Where ‘config’ is a file containing various cron style inputs like we described above.
-Your code must be able to be run this way.
+***DO NOT USE THIRD PARTY LIBRARIES***
+
+We want to run your code on the command line using an input like   
+`./<your app> HH:MM < config`  
+For example: `./application.py 16:10 < config`  
+
+Where ‘config’ is a file containing various cron style inputs like we described above.  
+Your code must be able to be run this way.  
 
 
 File Structure
@@ -63,8 +64,8 @@ File Structure
 
 USAGE INSTRUCTIONS
 ----------------------
-***Warning***
-You may need python3 command python command depending on what your cli is mapped to python3. In this case my python3 interpreter is invoked using python3. The same applies for pip/pip3
+***Warning***  
+You may need python3 command python command depending on what your cli is mapped to python3. In this case my python3 interpreter is invoked using python3. The same applies for pip/pip3  
 
 * Clone this repo to your computer.
 * For mac please ensure you have xcode or download it from the app store (probably not needed)
@@ -114,7 +115,7 @@ Lead Developer - Deoga Kofi
 
 The MIT License (MIT)
 
-Copyright (c) 2020 Deoga Kofi
+Copyright (c) 2021 Deoga Kofi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
