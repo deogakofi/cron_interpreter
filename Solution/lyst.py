@@ -1,5 +1,5 @@
-from datetime import datetime                # Import datetime module to handle time inputs
-import argparse                              # Import argparse to handle CLI inputs
+from datetime import datetime
+import argparse
 
 def open_files(txtfile: str):
     """Open files with scheduler data input
@@ -16,7 +16,7 @@ def open_files(txtfile: str):
     return mylines
 
 
-def solve_run_time(time: str, txtfile: str):                  # Declare method to interpret cron scheduler inputs
+def solve_run_time(time: str, txtfile: str):
     """Interpret next run of scheduler
     Args:
         time => String containing time input to compare to scheduler time eg 12:00
@@ -26,37 +26,38 @@ def solve_run_time(time: str, txtfile: str):                  # Declare method t
     """
     now = datetime.strptime(str(time), "%H:%M")             # Initiate the time to compare with scheduler time
     # dd/mm/YY H:M:S
-    hour_now = now.strftime("%H")                           # Extract the hour from the time input
-    minute_now = now.strftime("%M")                         # Extract the minute from the time input
+    hour_now = now.strftime("%H")                          # Extract the hour from the time input
+    minute_now = now.strftime("%M")                       # Extract the minute from the time input
     mylines = open_files(txtfile)                            # Read input file using open_files method
     output = []                                             # Declare empty list for the output file
     for i in range(0, len(mylines)):                        # For each line in input file
         new_line = mylines[i].split()                       # Initiate newline to store contents of loop
-        if new_line[0] == "*" and new_line[1]== "*":        # First logic to check if both schduler times are *
-            output.append('{} today - {}'.format(now.strftime("%H:%M"), new_line[2]))
-        elif new_line[0] == "*" and new_line[1] != "*":                        # Second logic to check only if schduler minute is *
-            if new_line[0] == "*" and int(new_line[1]) > int(hour_now):
-                output.append('{}:00 today - {}'.format(new_line[1], new_line[2]))
-            elif new_line[0] == "*" and int(new_line[1]) == int(hour_now):
-                output.append('{}:{} today - {}'.format(new_line[1], minute_now, new_line[2]))
+        scheduler_minute = new_line[0]
+        scheduler_hour = new_line[1]
+        schedule = new_line[2]
+        if scheduler_minute == "*" and scheduler_hour== "*":        # First logic to check if both schduler times are *
+            output.append('{} today - {}'.format(now.strftime("%H:%M"), schedule))
+        elif scheduler_minute == "*" and scheduler_hour != "*":                        # Second logic to check only if schduler minute is *
+            if scheduler_minute == "*" and int(scheduler_hour) > int(hour_now):
+                output.append('{}:00 today - {}'.format(scheduler_hour, schedule))
+            elif scheduler_minute == "*" and int(scheduler_hour) == int(hour_now):
+                output.append('{}:{} today - {}'.format(scheduler_hour, minute_now, schedule))
             else:
-                output.append('{}:00 tomorrow - {}'.format(new_line[1], new_line[2]))
-        elif new_line[1] == "*" and new_line[0] != "*":                     # Third logic to check only if scheduler hour is *
-            if new_line[1] == "*" and int(new_line[0]) < int(minute_now) and int(hour_now) == 23: # Logic to accommodate where time switches to midnight
-                output.append('00:{} tomorrow - {}'.format(new_line[0], new_line[2]))
-            elif new_line[1] == "*" and int(new_line[0]) >= int(minute_now):
-                output.append('{}:{} today - {}'.format(hour_now, new_line[0], new_line[2]))
-            elif new_line[1] == "*" and int(new_line[0]) < int(minute_now):
-                output.append('{}:{} today - {}'.format(int(hour_now)+1, new_line[0], new_line[2]))
-            else:
-                output.append('{}:{} tomorrow - {}'.format(int(hour_now)+1, new_line[0], new_line[2]))
+                output.append('{}:00 tomorrow - {}'.format(scheduler_hour, schedule))
+        elif scheduler_hour == "*" and scheduler_minute != "*":                     # Third logic to check only if scheduler hour is *
+            if scheduler_hour == "*" and int(scheduler_minute) < int(minute_now) and int(hour_now) == 23: # Logic to accommodate where time switches to midnight
+                output.append('00:{} tomorrow - {}'.format(scheduler_minute, schedule))
+            elif scheduler_hour == "*" and int(scheduler_minute) >= int(minute_now):
+                output.append('{}:{} today - {}'.format(hour_now, scheduler_minute, schedule))
+            elif scheduler_hour == "*" and int(scheduler_minute) < int(minute_now):
+                output.append('{}:{} today - {}'.format(int(hour_now)+1, scheduler_minute, schedule))
         else:                                                  # Fourth logic for other entries where both hour and minute of scheduler is *
-            if new_line[0] != "*" and new_line[1] != "*" and int(new_line[1]) < int(hour_now):
-                output.append('{}:{} tomorrow - {}'.format(new_line[1], new_line[0], new_line[2]))
-            elif new_line[0] != "*" and new_line[1] != "*" and int(new_line[1]) == int(hour_now) and int(new_line[0]) < int(minute_now):
-                output.append('{}:{} tomorrow - {}'.format(new_line[1], new_line[0], new_line[2]))
+            if scheduler_minute != "*" and scheduler_hour != "*" and int(scheduler_hour) < int(hour_now):
+                output.append('{}:{} tomorrow - {}'.format(scheduler_hour, scheduler_minute, schedule))
+            elif scheduler_minute != "*" and scheduler_hour != "*" and int(scheduler_hour) == int(hour_now) and int(scheduler_minute) < int(minute_now):
+                output.append('{}:{} tomorrow - {}'.format(scheduler_hour, scheduler_minute, schedule))
             else:
-                output.append('{}:{} today - {}'.format(new_line[1], new_line[0], new_line[2]))
+                output.append('{}:{} today - {}'.format(scheduler_hour, scheduler_minute, schedule))
     return output
 
 def save_files(file_name: str, file: str):
@@ -71,14 +72,14 @@ def save_files(file_name: str, file: str):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser(description='LystChallenge')                           # Initiate parser
-    parser.add_argument('time', type= str)              # Create time cli argument with default time
-    parser.add_argument('config_file',  metavar='path', type= str)           # Create config file cli argument with default config
-    parser.add_argument('--save', required=False, default="./output_data/outputFile.txt", metavar='path', type= str)                  # Save
+    parser = argparse.ArgumentParser(description='LystChallenge')
+    parser.add_argument('time', type= str)
+    parser.add_argument('config_file',  metavar='path', type= str)
+    parser.add_argument('--save', required=False, default="./output_data/outputFile.txt", metavar='path', type= str)
     args = vars(parser.parse_args())
 
-    solved = solve_run_time(args['time'], args['config_file'])                    # Solve CLI inputs
-    save_files(args['save'], solved)                                             # Save run results
+    solved = solve_run_time(args['time'], args['config_file'])
+    save_files(args['save'], solved)
     print("Output file can be found in {}".format(args['save']))                # Print some output to help user
     print('-----------------------------------')
     print('Sample output')
