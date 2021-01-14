@@ -213,6 +213,35 @@ class TestOnTheHour(unittest.TestCase):
         self.assertEqual(result[6][6:9], 'tod')
         self.assertEqual(result[7][0:5], '23:00')
         self.assertEqual(result[7][6:9], 'tod')
+class TestSingleDigitHour(unittest.TestCase):
+    """Test case to test what will happen if the time entered is
+        single digit hour
+    """
+    def test_solver(self):
+        """Check the expected an actual  result of the test case
+        Args:
+            None
+        Returns:
+            Pass if all assert statements pass and
+            Fail if one of the assert statements fails
+        """
+        result = solve_run_time('1:00', 'Tests/cron_test.txt')
+        self.assertEqual(result[0][0:5], '23:59')
+        self.assertEqual(result[0][6:9], 'tod')
+        self.assertEqual(result[1][0:4], '1:45')
+        self.assertEqual(result[1][5:8], 'tod')
+        self.assertEqual(result[2][0:4], '1:00')
+        self.assertEqual(result[2][5:8], 'tod')
+        self.assertEqual(result[3][0:5], '19:00')
+        self.assertEqual(result[3][6:9], 'tod')
+        self.assertEqual(result[4][0:5], '00:00')
+        self.assertEqual(result[4][6:9], 'tom')
+        self.assertEqual(result[5][0:4], '1:59')
+        self.assertEqual(result[5][5:8], 'tod')
+        self.assertEqual(result[6][0:4], '1:00')
+        self.assertEqual(result[6][5:8], 'tod')
+        self.assertEqual(result[7][0:5], '23:00')
+        self.assertEqual(result[7][6:9], 'tod')
 
 if __name__ == '__main__':
     unittest.main()

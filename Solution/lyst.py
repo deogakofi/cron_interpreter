@@ -26,7 +26,7 @@ def solve_run_time(time: str, txtfile: str):
     """
     now = datetime.strptime(str(time), "%H:%M")             # Initiate the time to compare with scheduler time
     # dd/mm/YY H:M:S
-    hour_now = now.strftime("%H")                          # Extract the hour from the time input
+    hour_now = int(now.strftime("%H"))                          # Extract the hour from the time input
     minute_now = now.strftime("%M")                       # Extract the minute from the time input
     mylines = open_files(txtfile)                            # Read input file using open_files method
     output = []                                             # Declare empty list for the output file
@@ -35,26 +35,30 @@ def solve_run_time(time: str, txtfile: str):
         scheduler_minute = new_line[0]
         scheduler_hour = new_line[1]
         schedule = new_line[2]
-        if scheduler_minute == "*" and scheduler_hour== "*":        # First logic to check if both schduler times are *
-            output.append('{} today - {}'.format(now.strftime("%H:%M"), schedule))
+        if scheduler_minute == "*" and scheduler_hour== "*" and hour_now == 0:        # First logic to check if both schduler times are *
+            output.append('0{}:{} today - {}'.format(hour_now, minute_now, schedule))
+        elif scheduler_minute == "*" and scheduler_hour== "*" and hour_now != 0:
+            output.append('{}:{} today - {}'.format(hour_now, minute_now, schedule))
         elif scheduler_minute == "*" and scheduler_hour != "*":                        # Second logic to check only if schduler minute is *
-            if scheduler_minute == "*" and int(scheduler_hour) > int(hour_now):
+            if scheduler_minute == "*" and int(scheduler_hour) > hour_now:
                 output.append('{}:00 today - {}'.format(scheduler_hour, schedule))
-            elif scheduler_minute == "*" and int(scheduler_hour) == int(hour_now):
+            elif scheduler_minute == "*" and int(scheduler_hour) == hour_now:
                 output.append('{}:{} today - {}'.format(scheduler_hour, minute_now, schedule))
             else:
                 output.append('{}:00 tomorrow - {}'.format(scheduler_hour, schedule))
         elif scheduler_hour == "*" and scheduler_minute != "*":                     # Third logic to check only if scheduler hour is *
-            if scheduler_hour == "*" and int(scheduler_minute) < int(minute_now) and int(hour_now) == 23: # Logic to accommodate where time switches to midnight
+            if scheduler_hour == "*" and int(scheduler_minute) < int(minute_now) and hour_now == 23: # Logic to accommodate where time switches to midnight
                 output.append('00:{} tomorrow - {}'.format(scheduler_minute, schedule))
-            elif scheduler_hour == "*" and int(scheduler_minute) >= int(minute_now):
+            elif scheduler_hour == "*" and int(scheduler_minute) >= int(minute_now) and hour_now == 0:
+                output.append('0{}:{} today - {}'.format(hour_now, scheduler_minute, schedule))
+            elif scheduler_hour == "*" and int(scheduler_minute) >= int(minute_now) and hour_now != 0:
                 output.append('{}:{} today - {}'.format(hour_now, scheduler_minute, schedule))
             elif scheduler_hour == "*" and int(scheduler_minute) < int(minute_now):
-                output.append('{}:{} today - {}'.format(int(hour_now)+1, scheduler_minute, schedule))
+                output.append('{}:{} today - {}'.format(hour_now+1, scheduler_minute, schedule))
         else:                                                  # Fourth logic for other entries where both hour and minute of scheduler is *
-            if scheduler_minute != "*" and scheduler_hour != "*" and int(scheduler_hour) < int(hour_now):
+            if scheduler_minute != "*" and scheduler_hour != "*" and int(scheduler_hour) < hour_now:
                 output.append('{}:{} tomorrow - {}'.format(scheduler_hour, scheduler_minute, schedule))
-            elif scheduler_minute != "*" and scheduler_hour != "*" and int(scheduler_hour) == int(hour_now) and int(scheduler_minute) < int(minute_now):
+            elif scheduler_minute != "*" and scheduler_hour != "*" and int(scheduler_hour) == hour_now and int(scheduler_minute) < int(minute_now):
                 output.append('{}:{} tomorrow - {}'.format(scheduler_hour, scheduler_minute, schedule))
             else:
                 output.append('{}:{} today - {}'.format(scheduler_hour, scheduler_minute, schedule))
@@ -83,4 +87,4 @@ if __name__ == "__main__":
     print("Output file can be found in {}".format(args['save']))                # Print some output to help user
     print('-----------------------------------')
     print('Sample output')
-    print(solved)
+    print(solved[1][0])
