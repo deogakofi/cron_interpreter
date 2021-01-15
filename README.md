@@ -63,7 +63,7 @@ File Structure
 
 
 USAGE INSTRUCTIONS
-----------------------
+-------------------------------
 ***Warning***  
 You may need python3 command python command depending on what your cli is mapped to python3. In this case my python3 interpreter is invoked using python3. The same applies for pip/pip3  
 
@@ -77,7 +77,8 @@ You may need python3 command python command depending on what your cli is mapped
 * `cd` to the location of the parent directory in CLI
 * Navigate to parent directory in CLI
 * Execute `python3 solution/lyst.py <**:**> config` where '<**:**>' should be replaced with an appropriate time and 'config' can be replaced with an appropriate file path to be interpreted. Eg `python3 solution/lyst.py 1:00 input_data/cron_config.txt`
-* Check `output_data/outputFile.txt` for the interpretation of results from default input data
+* NOTE: Check `output_data/outputFile.txt` for the file that contains the interpretation of results from default input data
+* NOTE: Output for single digit hour is in the format '1' and not '01' in accordance to the spec
 
 RUNNING TESTS
 ----------------------
