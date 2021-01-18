@@ -78,7 +78,7 @@ You may need python3 command python command depending on what your cli is mapped
 * Navigate to parent directory in CLI
 * Execute `python3 solution/lyst.py <**:**> config` where '<**:**>' should be replaced with an appropriate time and 'config' can be replaced with an appropriate file path to be interpreted. Eg `python3 solution/lyst.py 1:00 input_data/cron_config.txt`
 * NOTE: Check `output_data/outputFile.txt` for the file that contains the interpretation of results from default input data
-* NOTE: Output for single digit hour is in the format '1' and not '01' in accordance to the spec
+* NOTE: Output for single digit hour is in the format '1' and not '01' in accordance to the spec unless the hour is '00'
 
 RUNNING TESTS
 ----------------------
